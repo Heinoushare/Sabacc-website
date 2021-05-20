@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Player 1: {{ game.player1 }} ({{ game.player1_credits }} credits)</p>
+<p>Player 2: {{ game.player2 }} ({{ game.player2_credits }} credits)</p>
+<p>Hand pot: {{ game.hand_pot }}</p>
+<p>Sabacc pot: {{ game.sabacc_pot }}</p>
+
+{% if player == game.player1 and player == game.active_player and player == game.leading_player and game.phase == "Betting" and game.follow_player_bet == game.lead_player_bet %}
+    <p>Your hand includes: {{ game.player1_hand }}</p>
+    <form method='POST'> {% csrf_token %}
+      {{ leadBettingForm.as_p }}
+      <input type='submit' value='Bet' />
+    </form>
+  
+{% elif player == game.player1 and player and game.phase == "Betting" and player != game.active_player %}
+
+  <p>Your hand includes: {{ game.player1_hand }}</p>
+
+{% elif player == game.player2 and player and game.phase == "Betting" and player != game.active_player %}
+
+    <p>Your hand includes: {{ game.player2_hand }}</p>
+    
+    
+{% elif player == game.player2 and player == game.active_player and player != game.leading_player %}
+
+      <p>Your hand includes: {{ game.player2_hand }}</p>
+
+
+  <p>{{ game.player1 }} bets {{ game.lead_player_bet }} credits. How much do you bet?</p>
+    <form method='POST'> {% csrf_token %}
+      {{ followBettingForm.as_p }}
+      <input type='submit' value='Bet' />
+    </form>
+
+{% elif player == game.player1 and player == game.active_player and player == game.leading_player and game.phase == "Betting" and game.follow_bet_counter == True %}
+    <p>{{ game.player2 }} counters and bets {{ game.follow_player_bet }} credits.</p>
+    <p>Your hand includes: {{ game.player1_hand }}</p>
+    <form method='POST'> {% csrf_token %}
+      {{ leadBettingForm.as_p }}
+      <input type='submit' value='Bet' />
+    </form>
+
+{% elif player == game.player1 and player == game.active_player and player == game.leading_player and game.phase == "Card" %}
+  <p>Your hand includes: {{ game.player1_hand }}</p>
+  <form method='POST'> {% csrf_token %}
+    {{ leadCardForm.as_p }}
+    <input type='submit' value='Draw, trade, or skip' />
+  </form>
+
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sabacc</title>
+  </head>
+  <body>
+
+    
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'register' %}">Sign Up</a>
+    <a href="{% url 'logout' %}">Logout</a>
+    <hr>
+    <a class="btn" href="{% url 'home' %}">Home Page</a>
+    <a class="btn" href="{% url 'chat' %}">Chat with other players</a>
+    <a class="btn" href="{% url 'make_game' %}">Host a game</a>
+
+    <style>
+      *{
+        margin:0;
+        padding:0;
+      }
+
+      body{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: rgb(14, 148, 201);
+        color: #FFF;
+        line-height: 1.6;
+        text-align: center;
+      }
+
+      .btn{
+        display: inline-block;
+        color: #fff;
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border: #fff 1px solid;
+        margin: 40px;
+        opacity: 0;
+        animation-name: btn;
+        animation-duration: 1s;
+        animation-delay: 1s;
+        animation-fill-mode: forwards;
+
+        transition-property: transform;
+        transition-duration: 1s;
+
+      }
+
+      .btn:hover{
+        transform: rotateY(180deg);
+      }
+
+      @keyframes btn {
+        0% {opacity: 0}
+        100% {opacity: 1}
+      }
+
+    </style>
+
+    {% block content %}
+
+    {% endblock %}
+
+  </body>
+
+</html>

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Sabacc</h1>
+
+<p>Your Games</p>
+
+<ul>
+{% for item in games %}
+
+  {% if item.player1 == requester or item.player2 == requester%}
+    
+    <li>{{ item.player1 }} vs. {{ item.player2 }} Game link: https://sabacc-website.heinoushare.repl.co/game/{{ item.id }}/{{ item.id }}/null</li>
+
+  {% endif %}
+
+{% endfor %}
+</ul>
+<p>Active games</p>
+<ul>
+{% for item in gameLinks %}
+<li><a href="{{ item }}">{{ item }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

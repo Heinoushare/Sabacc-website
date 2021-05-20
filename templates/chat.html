@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method='POST'> {% csrf_token %}
+  {{ form.as_p }}
+  <input type='submit' value='Send' />
+</form>
+
+{% for message in chatResults %}
+
+  <p>{{ message.author_of_message }}: {{ message.message }}</p>
+
+{% endfor %}
+
+{% endblock %}
