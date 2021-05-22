@@ -154,10 +154,7 @@ def game_view(request, game_id, pk, action):
             drawCardIndex = random.randint(0, len(deckList) - 1)
             drawCards.append(deckList[drawCardIndex])
             deckList.pop(drawCardIndex)
-            drawCardIndex = random.randint(0, len(deckList) - 1)
-            drawCards.append(deckList[drawCardIndex])
-            deckList.pop(drawCardIndex)
-            print(deckList)
+            
             removeCards = drawCards
 
             for item in drawCards:
@@ -190,10 +187,7 @@ def game_view(request, game_id, pk, action):
             drawCardIndex = random.randint(0, len(deckList) - 1)
             drawCards.append(deckList[drawCardIndex])
             deckList.pop(drawCardIndex)
-            drawCardIndex = random.randint(0, len(deckList) - 1)
-            drawCards.append(deckList[drawCardIndex])
-            deckList.pop(drawCardIndex)
-            print(deckList)
+            
             removeCards = removeCards + drawCards
 
             for item in drawCards:
@@ -306,12 +300,19 @@ def game_view(request, game_id, pk, action):
 
 
         #game.lead_player_card_action = None
+        if game.active_player == game.player1:
+          game.active_player = game.player2
+
+        elif game.active_player == game.player2:
+          game.active_player = game.player1
         game.save()
 
         linkStart = "https://Sabacc-website.heinoushare.repl.co/game/"
         slash = "/"
         linkEnd = "/leadShift"
         link = linkStart + pk + slash + pk + linkEnd
+
+        
 
         return redirect(link)
         
@@ -330,10 +331,7 @@ def game_view(request, game_id, pk, action):
             drawCardIndex = random.randint(0, len(deckList) - 1)
             drawCards.append(deckList[drawCardIndex])
             deckList.pop(drawCardIndex)
-            drawCardIndex = random.randint(0, len(deckList) - 1)
-            drawCards.append(deckList[drawCardIndex])
-            deckList.pop(drawCardIndex)
-            print(deckList)
+            
             removeCards = removeCards + drawCards
 
             for item in drawCards:
@@ -635,7 +633,7 @@ def game_view(request, game_id, pk, action):
         'leadBettingForm': leadBettingForm,
         'followBettingForm': followBettingForm,
         'leadCardForm': leadCardForm,
-        'followCardForm': followCarmForm,
+        'followCardForm': followCardForm,
         'leadShiftForm': leadShiftForm,
         'followShiftForm': followShiftForm
     }

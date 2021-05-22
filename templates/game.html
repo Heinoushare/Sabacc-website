@@ -49,6 +49,13 @@
     <input type='submit' value='Draw, trade, or skip' />
   </form>
 
+{% elif player == game.player1 and player == game.active_player and player == game.leading_player and game.phase == "Shift" %}
+  <p>Your hand includes: {{ game.player1_hand }}</p>
+  <form method='POST'> {% csrf_token %}
+    {{ leadShiftForm.as_p }}
+    <input type='submit' value='Draw, trade, or skip' />
+  </form>
+
 {% endif %}
 
 
