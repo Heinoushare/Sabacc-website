@@ -8,13 +8,30 @@ $(document).ready(function() {
 	let game = document.getElementById("game");
 	let game_id = parseInt(game.getAttribute("game_id"))
 	let userCredits = document.getElementById("credits").innerHTML;
+	let opponent_id = parseInt(document.getElementById("opponent").getAttribute("opponent_id"));
 	
 	// Hide HTML that must be hidden from the beginning
 	$("#betDiv").hide()
 	
 	// When client recieves a message through the bet_socket
-	bet_socket.on('game', function(action, amount) {
-		// $("#messages").append('<p>'+msg+'</p>');
+	bet_socket.on('bet', function(gameID, action, amount, player_id) {
+		console.log("bet")
+		if (gameID === game_id)
+		{
+			if (action === "bet")
+			{
+				if (player_id === opponent_id)
+				{
+					document.getElementById("credits").innerHTML = (parseInt(document.getElementById("credits").innerHTML) - amount).toString();
+					document.getElementById("hand_pot").innerHTML = (parseInt(document.getElementById("hand_pot").innerHTML) + amount).toString();
+				}
+				else
+				{
+					document.getElementById("opponent_credits").innerHTML = (parseInt(document.getElementById("opponent_credits").innerHTML) - amount).toString();
+					document.getElementById("hand_pot").innerHTML = (parseInt(document.getElementById("hand_pot").innerHTML) + amount).toString();
+				}
+			}
+		}
 	});
 
 	// Decide what to do for the betting phase
@@ -50,6 +67,9 @@ $(document).ready(function() {
 		else if (credits < 1 || credits > parseInt(userCredits))
 		{
 			document.getElementById("invalidBetCredits").innerHTML = "Invalid amount of credits - Please input a valid number of credits (a positive integer 1 to " + userCredits + ")";
+		}
+		else
+		{
 			bet_socket.emit("bet", game_id, "bet", parseInt(credits));
 		}
 	});
